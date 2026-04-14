@@ -1,32 +1,57 @@
-# Ball Physics Simulation
+# Ball Physics Simulation (Game Dev Interview Starter)
 
-A browser-based physics simulation built as part of a live technical interview for a game developer position at Dytomic.
+**Live technical interview starter for a game-developer role at [Dytomic](https://dytomic.com). Authored by [Mourad Elsheraey](https://github.com/elsheraey), a co-founder at Dytomic, as a reusable hiring artefact.**
 
-## Demo
+> This repo is a deliberately incomplete starter. Candidates extend it during a live interview session against the clock.
 
-Open `main.html` in any modern browser — no build step or server required.
+## What candidates receive
 
-## What it does
+A browser-based physics sandbox that, out of the box, does:
 
-Spawns 1,000 footballs across a full-viewport green field, each with a random initial force applied. Every ball is governed by:
+- **1,000 footballs** rendered across a full-viewport green field
+- Each ball starts with a random initial force
+- **Gravity** applied uniformly each frame (9.81 m/s²)
+- **Mass** (uniform 2 kg) affects the force-to-acceleration ratio per Newton's second law
+- **Boundary collision** with walls, floor, and ceiling (velocity component flips on contact)
+- **GPU-accelerated rendering** via CSS `translateX/Y/Z(0)` transforms
+- A simulation loop targeting 60 FPS (`setInterval` at 16 ms)
 
-- **Gravity** — 9.81 m/s² applied each frame
-- **Mass** — uniform 2 kg, affects force-to-acceleration ratio (Newton's 2nd law)
-- **Boundary collision** — velocity component flipped on wall/floor/ceiling contact
-- **GPU-accelerated rendering** — position updates via CSS `translateX/Y/Z(0)` transforms
+## What candidates are asked to do
 
-The simulation runs at a target of 60 FPS using `setInterval` at 16 ms intervals.
+The starter has one deliberate gap: `checkCollisions()` is stubbed.
 
-## Structure
+Implementing ball-to-ball collision detection is the live-interview task. At 1,000 balls, a naive O(n²) approach blows up; the interview explores the candidate's instincts around:
+
+- Spatial partitioning (quadtree, uniform grid, spatial hashing)
+- Collision detection vs. resolution (ordering, impulses, restitution, coefficient of restitution)
+- Performance intuition under a 16 ms frame budget
+- Code organisation and clarity while the clock runs
+
+There's no single correct answer. The interview is about reasoning and trade-offs, not a reference implementation.
+
+## Files
 
 | File | Purpose |
 |------|---------|
-| `main.html` | Entry point — full-viewport green field container |
-| `simulation.js` | `Ball` class + physics loop + collision stub |
-| `football.png` | Ball sprite |
+| `main.html` | Entry point. Full-viewport green field container. |
+| `simulation.js` | `Ball` class, physics loop, collision stub. |
+| `football.png` | Ball sprite. |
 
-## Known limitations / TODOs
+## Running it
 
-- `checkCollisions()` is stubbed — ball-to-ball collision detection not implemented
-- No spatial partitioning (e.g. quadtree) — O(n²) collision check would be needed for 1,000 balls
-- Container size is captured once at load; does not respond to window resize
+No build step, no server required. Open `main.html` directly in any modern browser, or serve locally:
+
+```bash
+python3 -m http.server 8080
+# open http://localhost:8080/main.html
+```
+
+## Known limitations (by design)
+
+- `checkCollisions()` is the candidate task, not a bug.
+- No spatial partitioning is provided; the candidate decides what's worth it.
+- Container size is captured once at load and doesn't respond to window resize.
+
+## License
+
+Owned by Dytomic. Interview candidates are welcome to fork for the purposes of completing the exercise.
